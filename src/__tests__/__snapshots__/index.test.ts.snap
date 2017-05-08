@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`write-changelog works 1`] = `
+Array [
+  Array [
+    "changelog.md",
+    "
+### [v1.0.0](https://github.com/user/repo/releases/tag/v1.0.0) (2017-05-01)
+
+* [[\`c0489425d5\`](https://github.com/user/repo/commit/c0489425d5)] - Initial Commit (Neil Kistner)",
+  ],
+  Array [
+    "readme.md",
+    "
+### [v1.0.0](https://github.com/user/repo/releases/tag/v1.0.0) (2017-05-01)
+
+* [[\`c0489425d5\`](https://github.com/user/repo/commit/c0489425d5)] - Initial Commit (Neil Kistner)
+",
+  ],
+]
+`;

@@ -1,0 +1,52 @@
+{
+  "name": "write-changelog",
+  "version": "0.0.0",
+  "description": "Write a change log.",
+  "license": "MIT",
+  "repository": "wyze/write-changelog",
+  "author": {
+    "name": "Neil Kistner",
+    "email": "neil.kistner@gmail.com",
+    "url": "neilkistner.com"
+  },
+  "bin": "bin/index.js",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rimraf lib",
+    "prebuild": "npm run clean",
+    "preversion": "npm run build",
+    "test": "jest",
+    "version": "node lib"
+  },
+  "files": [
+    "bin",
+    "lib"
+  ],
+  "keywords": [
+    "generate",
+    "changelog"
+  ],
+  "dependencies": {
+    "changelog-maker": "^2.2.5",
+    "execa": "^0.6.3",
+    "read-pkg": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^19.2.3",
+    "@types/node": "^7.0.18",
+    "jest": "^20.0.0",
+    "rimraf": "^2.6.1",
+    "ts-jest": "^20.0.1",
+    "typescript": "^2.3.2"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "ts"
+    ],
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.ts$",
+    "transform": {
+      "\\.ts$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    }
+  }
+}
