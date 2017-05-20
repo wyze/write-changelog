@@ -18,6 +18,8 @@ const getChanges = async ({ url, version }: UrlVersion): Promise<ChangesUrlVersi
   const args = [ '--filter-release', '--', user, repo.replace('.git', '') ]
   const stdout = await execa.stdout('changelog-maker', args)
   const changes = stdout.trim().split(' \n')
+    // This will filter out apm (Atom Packages) releases as well
+    .filter(( change: string ) => !/\sPrepare v?\d\.\d\.\d.* release\s/.test(change))
 
   return { changes, url, version }
 }
