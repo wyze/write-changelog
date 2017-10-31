@@ -27,17 +27,17 @@
     "changelog"
   ],
   "dependencies": {
-    "changelog-maker": "^2.2.5",
-    "execa": "^0.6.3",
+    "changelog-maker": "^2.2.6",
+    "execa": "^0.8.0",
     "read-pkg": "^2.0.0"
   },
   "devDependencies": {
-    "@types/jest": "^19.2.3",
-    "@types/node": "^7.0.18",
-    "jest": "^20.0.0",
-    "rimraf": "^2.6.1",
-    "ts-jest": "^20.0.1",
-    "typescript": "^2.3.2"
+    "@types/jest": "^21.1.5",
+    "@types/node": "^8.0.47",
+    "jest": "^21.2.1",
+    "rimraf": "^2.6.2",
+    "ts-jest": "^21.1.4",
+    "typescript": "^2.5.3"
   },
   "jest": {
     "moduleFileExtensions": [
