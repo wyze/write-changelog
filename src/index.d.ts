@@ -2,20 +2,20 @@ declare module 'execa'
 declare module 'read-pkg'
 
 declare type Package = {
-  name: string,
+  name: string
   repository: {
-    url: string,
-  },
-  version: string,
+    url: string
+  }
+  version: string
 }
 
 declare type ChangesUrlVersion = {
-  changes: string[],
-  url: string,
-  version: string,
+  changes: string[]
+  url: string
+  version: string
 }
 
 declare type UrlVersion = {
-  url: string,
-  version: string,
+  url: string
+  version: string
 }

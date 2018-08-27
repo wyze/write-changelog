@@ -15,6 +15,7 @@
     "clean": "rimraf bin/index.js",
     "postbuild": "shx chmod a+x bin/index.js",
     "prebuild": "yarn clean",
+    "prettier": "prettier --write \"{bin,src}/**/*.ts\"",
     "preversion": "yarn build",
     "test": "jest",
     "version": "node bin"
@@ -36,6 +37,7 @@
     "@types/node": "^10.9.2",
     "@wyze/rio": "^1.0.0",
     "jest": "^23.5.0",
+    "prettier": "^1.14.2",
     "rimraf": "^2.6.2",
     "shx": "^0.3.2",
     "ts-jest": "^23.1.4",
@@ -53,5 +55,11 @@
     "transform": {
       "\\.ts$": "ts-jest"
     }
+  },
+  "prettier": {
+    "arrowParens": "always",
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "es5"
   }
 }

@@ -5,21 +5,30 @@ import readPkg from 'read-pkg'
 /**
  * Read package.json and return git url and version.
  */
-const getVersionAndUrl = ({ repository: { url }, version }: Package): UrlVersion =>
-  ({ url, version })
+const getVersionAndUrl = ({
+  repository: { url },
+  version,
+}: Package): UrlVersion => ({ url, version })
 
 /**
  * Runs `changelog-maker` and grabs the output.
  *
  * TODO: Support override with `npm changelog` script.
  */
-const getChanges = async ({ url, version }: UrlVersion): Promise<ChangesUrlVersion> => {
-  const [ user, repo ] = url.split('/').slice(3)
-  const args = [ '--filter-release', '--', user, repo.replace('.git', '') ]
+const getChanges = async ({
+  url,
+  version,
+}: UrlVersion): Promise<ChangesUrlVersion> => {
+  const [user, repo] = url.split('/').slice(3)
+  const args = ['--filter-release', '--', user, repo.replace('.git', '')]
   const stdout = await execa.stdout('changelog-maker', args)
-  const changes = stdout.trim().split(' \n')
+  const changes = stdout
+    .trim()
+    .split(' \n')
     // This will filter out apm (Atom Packages) releases as well
-    .filter(( change: string ) => !/\sPrepare v?\d\.\d\.\d.* release\s/.test(change))
+    .filter(
+      (change: string) => !/\sPrepare v?\d\.\d\.\d.* release\s/.test(change)
+    )
 
   return { changes, url, version }
 }
@@ -27,22 +36,27 @@ const getChanges = async ({ url, version }: UrlVersion): Promise<ChangesUrlVersi
 /**
  * Update changelog with latest changes.
  */
-const updateChangelog = ({ changes, url, version }: ChangesUrlVersion): string[] => {
+const updateChangelog = ({
+  changes,
+  url,
+  version,
+}: ChangesUrlVersion): string[] => {
   const file = 'changelog.md'
-  const changelog = readFileSync(file).toString().split('\n')
-  const date = new Date().toJSON().split('T').shift()
+  const changelog = readFileSync(file)
+    .toString()
+    .split('\n')
+  const date = new Date()
+    .toJSON()
+    .split('T')
+    .shift()
   const tag = `v${version}`
   const repo = url.replace(/\.?git(?!hub)\+?/g, '')
   const header = `### [${tag}](${repo}/releases/tag/${tag}) (${date})`
-  const formatted = [ header, '', ...changes ]
+  const formatted = [header, '', ...changes]
 
   writeFileSync(
     file,
-    [
-      ...changelog.slice(0, 2),
-      ...formatted,
-      ...changelog.slice(1),
-    ].join('\n')
+    [...changelog.slice(0, 2), ...formatted, ...changelog.slice(1)].join('\n')
   )
 
   return formatted
@@ -51,9 +65,11 @@ const updateChangelog = ({ changes, url, version }: ChangesUrlVersion): string[]
 /**
  * Update readme with latest changes.
  */
-const updateReadme = ( formatted: string[] ) => {
+const updateReadme = (formatted: string[]) => {
   const file = 'readme.md'
-  const readme = readFileSync(file).toString().split('\n')
+  const readme = readFileSync(file)
+    .toString()
+    .split('\n')
   const start = '> [Full Change Log](changelog.md)'
   const end = '## License'
 
@@ -71,7 +87,7 @@ const updateReadme = ( formatted: string[] ) => {
  * Stage the files in git.
  */
 const runGitAdd = async () => {
-  await execa('git', [ 'add', '--all' ])
+  await execa('git', ['add', '--all'])
 }
 
 export default readPkg()
