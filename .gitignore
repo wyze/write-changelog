@@ -7,5 +7,8 @@ lib
 # Logs
 *.log
 
+# Coverage
+coverage
+
 # macOS
 .*DS_Store
