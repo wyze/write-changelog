@@ -30,6 +30,7 @@
   "dependencies": {
     "changelog-maker": "^2.2.7",
     "execa": "^1.0.0",
+    "gh-got": "^8.0.1",
     "read-pkg": "^4.0.1"
   },
   "devDependencies": {

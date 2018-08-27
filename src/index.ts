@@ -1,24 +1,14 @@
 import { readFileSync, writeFileSync } from 'fs'
 import execa from 'execa'
+import ghGot from 'gh-got'
 import readPkg from 'read-pkg'
-
-/**
- * Read package.json and return git url and version.
- */
-const getVersionAndUrl = ({
-  repository: { url },
-  version,
-}: Package): UrlVersion => ({ url, version })
 
 /**
  * Runs `changelog-maker` and grabs the output.
  *
  * TODO: Support override with `npm changelog` script.
  */
-const getChanges = async ({
-  url,
-  version,
-}: UrlVersion): Promise<ChangesUrlVersion> => {
+const getChanges = async (url: string): Promise<string[]> => {
   const [user, repo] = url.split('/').slice(3)
   const args = ['--filter-release', '--', user, repo.replace('.git', '')]
   const stdout = await execa.stdout('changelog-maker', args)
@@ -30,21 +20,14 @@ const getChanges = async ({
       (change: string) => !/\sPrepare v?\d\.\d\.\d.* release\s/.test(change)
     )
 
-  return { changes, url, version }
+  return changes
 }
 
-/**
- * Update changelog with latest changes.
- */
-const updateChangelog = ({
+const addHeaderToChanges = ({
   changes,
   url,
   version,
 }: ChangesUrlVersion): string[] => {
-  const file = 'changelog.md'
-  const changelog = readFileSync(file)
-    .toString()
-    .split('\n')
   const date = new Date()
     .toJSON()
     .split('T')
@@ -52,14 +35,23 @@ const updateChangelog = ({
   const tag = `v${version}`
   const repo = url.replace(/\.?git(?!hub)\+?/g, '')
   const header = `### [${tag}](${repo}/releases/tag/${tag}) (${date})`
-  const formatted = [header, '', ...changes]
+
+  return [header, '', ...changes]
+}
+
+/**
+ * Update changelog with latest changes.
+ */
+const updateChangelog = (formatted: string[]) => {
+  const file = 'changelog.md'
+  const changelog = readFileSync(file)
+    .toString()
+    .split('\n')
 
   writeFileSync(
     file,
     [...changelog.slice(0, 2), ...formatted, ...changelog.slice(1)].join('\n')
   )
-
-  return formatted
 }
 
 /**
@@ -83,16 +75,44 @@ const updateReadme = (formatted: string[]) => {
   )
 }
 
-/**
- * Stage the files in git.
- */
-const runGitAdd = async () => {
-  await execa('git', ['add', '--all'])
+const createGithubRelease = async ({
+  changes,
+  url,
+  version,
+}: ChangesUrlVersion) => {
+  const ownerRepo = url
+    .split('/')
+    .slice(-2)
+    .map((slug: string) => slug.replace('.git', ''))
+    .join('/')
+
+  await ghGot(`repos/${ownerRepo}/releases`, {
+    body: {
+      body: changes.join('\n'),
+      tag_name: `v${version}`,
+    },
+  })
 }
 
-export default readPkg()
-  .then(getVersionAndUrl)
-  .then(getChanges)
-  .then(updateChangelog)
-  .then(updateReadme)
-  .then(runGitAdd)
+// Run it
+export default async () => {
+  const {
+    repository: { url },
+    version,
+  } = await readPkg()
+
+  const changes = await getChanges(url)
+  const data = { changes, url, version }
+  const changesWithHeader = addHeaderToChanges(data)
+
+  await updateChangelog(changesWithHeader)
+  await updateReadme(changesWithHeader)
+
+  // Stage files in git
+  await execa('git', ['add', '--all'])
+
+  // If GitHub token is present, create a GitHub release
+  if (typeof process.env.GITHUB_TOKEN === 'string') {
+    await createGithubRelease(data)
+  }
+}

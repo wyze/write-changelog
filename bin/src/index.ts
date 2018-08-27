@@ -1,1 +1,3 @@
-import '../../src'
+import lib from '../../src'
+
+lib()

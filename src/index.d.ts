@@ -1,4 +1,5 @@
 declare module 'execa'
+declare module 'gh-got'
 declare module 'read-pkg'
 
 declare type Package = {
