@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "esModuleInterop": true,
     "lib": [
       "es2015.core",
       "es2015.promise",
@@ -7,9 +8,7 @@
     ],
     "module": "commonjs",
     "moduleResolution": "node",
-    "outDir": "lib",
     "strict": true,
-    "target": "es5"
   },
   "files": [
     "src/index.d.ts",

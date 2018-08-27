@@ -1,6 +1,6 @@
 import { readFileSync, writeFileSync } from 'fs'
-import * as execa from 'execa'
-import * as readPkg from 'read-pkg'
+import execa from 'execa'
+import readPkg from 'read-pkg'
 
 /**
  * Read package.json and return git url and version.

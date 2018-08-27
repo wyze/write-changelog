@@ -11,16 +11,16 @@
   },
   "bin": "bin/index.js",
   "scripts": {
-    "build": "tsc",
-    "clean": "rimraf lib",
-    "prebuild": "npm run clean",
-    "preversion": "npm run build",
+    "build": "rio -o bin/index.js -b '#!/usr/bin/env node' bin/src/index.ts",
+    "clean": "rimraf bin/index.js",
+    "postbuild": "shx chmod a+x bin/index.js",
+    "prebuild": "yarn clean",
+    "preversion": "yarn build",
     "test": "jest",
-    "version": "node lib"
+    "version": "node bin"
   },
   "files": [
-    "bin",
-    "lib"
+    "bin/index.js"
   ],
   "keywords": [
     "generate",
@@ -34,10 +34,15 @@
   "devDependencies": {
     "@types/jest": "^23.3.1",
     "@types/node": "^10.9.2",
+    "@wyze/rio": "^1.0.0",
     "jest": "^23.5.0",
     "rimraf": "^2.6.2",
+    "shx": "^0.3.2",
     "ts-jest": "^23.1.4",
     "typescript": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=8"
   },
   "jest": {
     "moduleFileExtensions": [
