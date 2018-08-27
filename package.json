@@ -36,7 +36,7 @@
   "devDependencies": {
     "@types/jest": "^23.3.1",
     "@types/node": "^10.9.2",
-    "@wyze/rio": "^1.0.0",
+    "@wyze/rio": "^1.1.0",
     "jest": "^23.5.0",
     "prettier": "^1.14.2",
     "rimraf": "^2.6.2",
