@@ -27,17 +27,17 @@
     "changelog"
   ],
   "dependencies": {
-    "changelog-maker": "^2.2.6",
-    "execa": "^0.8.0",
-    "read-pkg": "^2.0.0"
+    "changelog-maker": "^2.2.7",
+    "execa": "^1.0.0",
+    "read-pkg": "^4.0.1"
   },
   "devDependencies": {
-    "@types/jest": "^21.1.5",
-    "@types/node": "^8.0.47",
-    "jest": "^21.2.1",
+    "@types/jest": "^23.3.1",
+    "@types/node": "^10.9.2",
+    "jest": "^23.5.0",
     "rimraf": "^2.6.2",
-    "ts-jest": "^21.1.4",
-    "typescript": "^2.5.3"
+    "ts-jest": "^23.1.4",
+    "typescript": "^3.0.1"
   },
   "jest": {
     "moduleFileExtensions": [
@@ -46,7 +46,7 @@
     ],
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.ts$",
     "transform": {
-      "\\.ts$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+      "\\.ts$": "ts-jest"
     }
   }
 }
