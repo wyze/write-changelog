@@ -1,3 +1,9 @@
+# Project Deprecated
+
+This project is no longer maintained. Please use my other package [changelog](https://github.com/wyze/changelog) instead.
+
+---
+
 # write-changelog
 
 [![Build Status][travis-image]][travis-url]
